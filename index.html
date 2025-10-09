@@ -13,7 +13,7 @@
     }
 
     body {
-      background-color: #f4f5f7;
+      background-color: #f2f4f7;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -22,71 +22,48 @@
 
     /* Cabeçalho */
     header {
+      background-color: #fff;
       width: 100%;
-      height: 65px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background-color: #f2f2f2;
-      border-bottom: 3px solid #d9d9d9;
-      padding: 0 40px;
+      padding: 0 30px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
-    header .left {
+    header .logo {
       display: flex;
       align-items: center;
-      gap: 25px;
+      gap: 20px;
     }
 
     header img {
-      height: 32px;
+      height: 35px;
     }
 
     header nav {
       display: flex;
       gap: 25px;
-      font-size: 15px;
-      color: #333;
+      font-size: 14px;
+      color: #555;
     }
 
-    header nav span.active {
-      font-weight: bold;
-    }
-
-    /* Usuário */
     header .user {
       display: flex;
       align-items: center;
-      background-color: #d9d9d9;
-      padding: 6px 15px;
-      border-radius: 20px;
       gap: 10px;
-      font-size: 13px;
-    }
-
-    header .user i {
-      background-color: #c82333;
-      color: white;
-      border-radius: 50%;
-      width: 22px;
-      height: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-style: normal;
+      background-color: #f6f6f6;
+      padding: 5px 10px;
+      border-radius: 20px;
       font-size: 13px;
     }
 
     header .user span {
+      color: #444;
       font-weight: bold;
-      color: #333;
     }
 
-    header .user small {
-      color: #333;
-    }
-
-    /* Layout principal */
     main {
       display: flex;
       width: 90%;
@@ -95,29 +72,27 @@
       gap: 20px;
     }
 
-    /* Upload CSV */
+    /* Lado esquerdo */
     .upload-box {
       flex: 1;
       background-color: #fff;
       padding: 25px;
       border-radius: 10px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
     .upload-box h2 {
       font-size: 18px;
-      font-weight: bold;
       margin-bottom: 20px;
-      color: #333;
+      color: #444;
     }
 
     .upload-area {
-      border: 2px dashed #b3b3b3;
+      border: 2px dashed #ccc;
       border-radius: 10px;
       padding: 30px;
       text-align: center;
-      color: #555;
-      background-color: #fafafa;
+      color: #666;
     }
 
     .upload-area p {
@@ -143,16 +118,16 @@
     }
 
     .upload-area label:hover {
-      background-color: #d9d9d9;
+      background-color: #e0e0e0;
     }
 
-    /* Resultado */
+    /* Lado direito */
     .result-box {
       flex: 2;
       background-color: #fff;
       padding: 25px;
       border-radius: 10px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
     .result-header {
@@ -160,20 +135,19 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
       padding-bottom: 5px;
-      border-bottom: 1px solid #ccc;
     }
 
     .result-header h2 {
       font-size: 18px;
-      color: #333;
+      color: #444;
       font-style: italic;
-      font-weight: bold;
     }
 
     .result-header span {
       font-size: 13px;
-      color: #555;
+      color: #666;
     }
 
     table {
@@ -201,32 +175,27 @@
     .status-ok {
       color: green;
       font-weight: bold;
-      font-size: 16px;
     }
 
     .status-err {
       color: red;
       font-weight: bold;
-      font-size: 16px;
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="left">
-      <!-- Logo SENAI corrigida -->
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/senai/senai-original.svg" alt="SENAI" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/SENAI_logo.svg/320px-SENAI_logo.svg.png';" />
+    <div class="logo">
+      <!-- LOGO VERMELHA DO SENAI -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/SENAI_logo.svg/320px-SENAI_logo.svg.png" alt="SENAI" />
       <nav>
         <span>Usuário</span>
-        <span class="active">Arquivo</span>
+        <span><strong>Arquivo</strong></span>
       </nav>
     </div>
     <div class="user">
-      <i>👤</i>
-      <div>
-        <span>João Pedro Ribeiro</span><br>
-        <small>joao.ribeiro@sp.senai.br</small>
-      </div>
+      <span>João Pedro Ribeiro</span>
+      <small>joao.ribeiro@sp.senai.br</small>
     </div>
   </header>
 
@@ -255,6 +224,7 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Linhas do CSV aparecerão aqui -->
         </tbody>
       </table>
     </section>
@@ -266,14 +236,14 @@
     const fileName = document.getElementById("file-name");
     const dateElement = document.getElementById("date");
 
-    // Data atual
+    // Exibe a data atual
     const hoje = new Date();
     const dia = String(hoje.getDate()).padStart(2, "0");
     const mes = String(hoje.getMonth() + 1).padStart(2, "0");
     const ano = hoje.getFullYear();
     dateElement.textContent = `${dia}/${mes}/${ano}`;
 
-    // Leitura do CSV
+    // Lê o arquivo CSV e preenche a tabela
     input.addEventListener("change", function (e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -286,7 +256,7 @@
         const rows = text.split("\n").filter(r => r.trim() !== "");
         tableBody.innerHTML = "";
 
-        rows.forEach((row) => {
+        rows.forEach((row, i) => {
           const cols = row.split(",");
           if (cols.length >= 2) {
             const tr = document.createElement("tr");
@@ -297,7 +267,7 @@
             nome.textContent = cols[0].trim();
             cpf.textContent = cols[1].trim();
 
-            const ok = Math.random() > 0.5;
+            const ok = Math.random() > 0.5; // exemplo
             status.textContent = ok ? "✔" : "✖";
             status.className = ok ? "status-ok" : "status-err";
 
@@ -308,6 +278,7 @@
           }
         });
       };
+
       reader.readAsText(file);
     });
   </script>
