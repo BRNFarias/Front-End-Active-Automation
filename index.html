@@ -153,7 +153,6 @@
       padding: 25px;
       border-radius: 10px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-      border: 2px solid #007bff;
     }
 
     .result-header {
@@ -215,7 +214,8 @@
 <body>
   <header>
     <div class="left">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/SENAI_logo.svg" alt="SENAI" />
+      <!-- Logo SENAI corrigida -->
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/senai/senai-original.svg" alt="SENAI" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/SENAI_logo.svg/320px-SENAI_logo.svg.png';" />
       <nav>
         <span>Usuário</span>
         <span class="active">Arquivo</span>
@@ -255,7 +255,6 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Linhas do CSV aparecerão aqui -->
         </tbody>
       </table>
     </section>
@@ -267,14 +266,14 @@
     const fileName = document.getElementById("file-name");
     const dateElement = document.getElementById("date");
 
-    // Exibe a data atual
+    // Data atual
     const hoje = new Date();
     const dia = String(hoje.getDate()).padStart(2, "0");
     const mes = String(hoje.getMonth() + 1).padStart(2, "0");
     const ano = hoje.getFullYear();
     dateElement.textContent = `${dia}/${mes}/${ano}`;
 
-    // Lê o arquivo CSV e preenche a tabela
+    // Leitura do CSV
     input.addEventListener("change", function (e) {
       const file = e.target.files[0];
       if (!file) return;
