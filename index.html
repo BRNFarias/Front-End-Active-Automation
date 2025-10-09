@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SENAI - Upload CSV</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Arial", sans-serif;
+    }
+
+    body {
+      background-color: #f2f4f7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Cabeçalho */
+    header {
+      background-color: #fff;
+      width: 100%;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    header .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header img {
+      height: 25px;
+    }
+
+    header nav {
+      display: flex;
+      gap: 25px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    header .user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background-color: #f6f6f6;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+
+    header .user span {
+      color: #444;
+      font-weight: bold;
+    }
+
+    main {
+      display: flex;
+      width: 90%;
+      max-width: 1100px;
+      margin-top: 40px;
+      gap: 20px;
+    }
+
+    /* Lado esquerdo */
+    .upload-box {
+      flex: 1;
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .upload-box h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    .upload-area {
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+      color: #666;
+    }
+
+    .upload-area p {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .upload-area input {
+      display: none;
+    }
+
+    .upload-area label {
+      display: inline-block;
+      margin-top: 20px;
+      background-color: #f0f0f0;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #333;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .upload-area label:hover {
+      background-color: #e0e0e0;
+    }
+
+    /* Lado direito */
+    .result-box {
+      flex: 2;
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 5px;
+    }
+
+    .result-header h2 {
+      font-size: 18px;
+      color: #444;
+    }
+
+    .result-header span {
+      font-size: 13px;
+      color: #666;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    th {
+      color: #444;
+      font-weight: bold;
+    }
+
+    td {
+      color: #555;
+    }
+
+    .status-ok {
+      color: green;
+      font-weight: bold;
+    }
+
+    .status-err {
+      color: red;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/SENAI_logo.svg" alt="SENAI" />
+      <nav>
+        <span>Usuário</span>
+        <span><strong>Arquivo</strong></span>
+      </nav>
+    </div>
+    <div class="user">
+      <span>João Pedro Ribeiro</span>
+      <small>joao.ribeiro@sp.senai.br</small>
+    </div>
+  </header>
+
+  <main>
+    <section class="upload-box">
+      <h2>Arquivo CSV</h2>
+      <div class="upload-area">
+        <p>Leitura feita do arquivo:</p>
+        <p><strong id="file-name">Nenhum arquivo</strong></p>
+        <input type="file" id="csvFile" accept=".csv" />
+        <label for="csvFile">↑ Upload Arquivo</label>
+      </div>
+    </section>
+
+    <section class="result-box">
+      <div class="result-header">
+        <h2>Resultado</h2>
+        <span id="date"></span>
+      </div>
+      <table id="resultTable">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Linhas do CSV aparecerão aqui -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const input = document.getElementById("csvFile");
+    const tableBody = document.querySelector("#resultTable tbody");
+    const fileName = document.getElementById("file-name");
+    const dateElement = document.getElementById("date");
+
+    // Exibe a data atual
+    const hoje = new Date();
+    const dia = String(hoje.getDate()).padStart(2, "0");
+    const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+    const ano = hoje.getFullYear();
+    dateElement.textContent = `${dia}/${mes}/${ano}`;
+
+    // Lê o arquivo CSV e preenche a tabela
+    input.addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      fileName.textContent = file.name;
+
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        const text = event.target.result;
+        const rows = text.split("\n").filter(r => r.trim() !== "");
+        tableBody.innerHTML = "";
+
+        rows.forEach((row, i) => {
+          const cols = row.split(",");
+          if (cols.length >= 2) {
+            const tr = document.createElement("tr");
+            const nome = document.createElement("td");
+            const cpf = document.createElement("td");
+            const status = document.createElement("td");
+
+            nome.textContent = cols[0].trim();
+            cpf.textContent = cols[1].trim();
+
+            const ok = Math.random() > 0.5; // só pra exemplo
+            status.textContent = ok ? "✔" : "✖";
+            status.className = ok ? "status-ok" : "status-err";
+
+            tr.appendChild(nome);
+            tr.appendChild(cpf);
+            tr.appendChild(status);
+            tableBody.appendChild(tr);
+          }
+        });
+      };
+
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
