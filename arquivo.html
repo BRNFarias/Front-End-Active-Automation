@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Upload CSV | SENAI</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="./assets/logo-senai.png" alt="SENAI" class="logo-senai" />
+      <a href="cadastro.html" class="nav-link">Usuário</a>
+      <a href="arquivo.html" class="nav-link active">Arquivo</a>
+    </div>
+    <div class="nav-right">
+      <div class="user-info">
+        <img src="./assets/user.png" alt="avatar" class="avatar" />
+      </div>
+      <button id="logoutBtn" class="btn-logout">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <h3>Upload de Arquivo CSV</h3>
+      <form id="formUpload">
+        <input id="arquivo" type="file" accept=".csv" required />
+        <button class="primary" type="submit">Enviar</button>
+      </form>
+
+      <table class="table" id="tabelaCSV">
+        <thead><tr><th>Nome</th><th>CPF</th><th>Status</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="./js/arquivo.js"></script>
+</body>
+</html>
