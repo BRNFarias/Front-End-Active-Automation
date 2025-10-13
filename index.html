@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login SENAI</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login | SENAI</title>
+  <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
-  <div class="container">
-    <div class="left">
-      <span>SENAI</span>
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="./assets/logo-senai.png" alt="SENAI" class="logo-senai" />
     </div>
+  </header>
 
-    <div class="right">
-      <form>
-        <label for="nif">NIF:</label>
-        <input type="text" id="nif" placeholder="Insira o seu NIF" required>
-
-        <label for="senha">Senha:</label>
-        <div class="password-wrapper">
-          <input type="password" id="senha" placeholder="Insira sua senha" required>
-          <i id="togglePassword">👁️</i>
-        </div>
-
-        <button type="submit">ENTRAR</button>
-      </form>
+  <main class="centered">
+    <div class="card login-card">
+      <h2>Acessar sistema</h2>
+      <input id="email" type="email" placeholder="E-mail" />
+      <input id="senha" type="password" placeholder="Senha" />
+      <button id="loginBtn" class="primary">Entrar</button>
+      <p class="muted">Use o usuário padrão: <strong>admin@senai.local</strong> / senha: <strong>123</strong></p>
     </div>
-  </div>
+  </main>
 
-  <script src="script.js"></script>
+  <script src="./js/main.js"></script>
 </body>
 </html>
