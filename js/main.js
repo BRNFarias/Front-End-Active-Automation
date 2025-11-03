@@ -1,35 +1,54 @@
-// main.js - login + helpers used across pages
-
-// Se não existir, popula um usuário padrão para teste
-if (!localStorage.getItem("usuarios")) {
-  const padrao = [
-    { nome: "Administrador SENAI", cpf: "000.000.000-00", status: "Ativo", email: "admin@senai.local", senha: "123" }
-  ];
-  localStorage.setItem("usuarios", JSON.stringify(padrao));
-}
+// js/main.js
 
 // Função para obter usuário logado
 function getLogado() {
+  // Pega os dados do utilizador (nome, email) que o back-end enviou no login
   return JSON.parse(localStorage.getItem("logado") || "null");
 }
 
-// Verifica login e redireciona (usado em index.html)
+// Lógica de Login (usada no index.html)
 if (document.getElementById("loginBtn")) {
   document.getElementById("loginBtn").addEventListener("click", (e) => {
-    const email = document.getElementById("email").value.trim();
+    
+    // --- CORREÇÃO: Procura por 'username' em vez de 'email' ---
+    const username = document.getElementById("username").value.trim();
     const senha = document.getElementById("senha").value.trim();
-    const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
-    const user = usuarios.find(u => u.email === email && u.senha === senha);
-    if (user) {
+    
+    const API_URL = "http://localhost:8000/auth/login";
+
+    e.target.disabled = true;
+    e.target.textContent = "Aguarde...";
+
+    fetch(API_URL, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      // Envia o 'username' na chave 'email' que o back-end espera
+      body: JSON.stringify({ email: username, senha: senha }) 
+    })
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(err => {
+          throw new Error(err.detail || "Credenciais inválidas");
+        });
+      }
+      return response.json(); 
+    })
+    .then(user => {
+      // Salva os detalhes REAIS do utilizador no localStorage
       localStorage.setItem("logado", JSON.stringify(user));
-      window.location.href = "cadastro.html";
-    } else {
-      alert("Credenciais inválidas. Verifique e tente novamente.");
-    }
+      window.location.href = "cadastro.html"; // Redireciona para a página principal
+    })
+    .catch(error => {
+      alert(error.message);
+      e.target.disabled = false;
+      e.target.textContent = "Entrar";
+    });
   });
 }
 
-// Logout comum: vinculado aos botões com id logoutBtn
+// Logout (usado em todas as páginas)
 document.querySelectorAll("#logoutBtn").forEach(btn => {
   btn.addEventListener("click", () => {
     localStorage.removeItem("logado");
@@ -37,23 +56,25 @@ document.querySelectorAll("#logoutBtn").forEach(btn => {
   });
 });
 
-// Em páginas que mostram o nome/email do usuário, preenche
+// Lógica de Cabeçalho (usada em todas as páginas, exceto index.html)
+// Isto resolve o seu "Pedido 1"
 document.addEventListener("DOMContentLoaded", () => {
   const logado = getLogado();
   if (logado) {
+    // Se está logado, preenche o cabeçalho
     const nameEl = document.getElementById("userName");
     const emailEl = document.getElementById("userEmail");
-    if (nameEl) nameEl.textContent = logado.nome;
+    
+    // (O seu 'cadastro.html' tem estes IDs)
+    if (nameEl) nameEl.textContent = logado.nome; 
     if (emailEl) emailEl.textContent = logado.email || "";
   } else {
-    // Se não estiver logado e não estiver em index.html, redireciona ao login
-    if (!location.pathname.endsWith("/index.html") && !location.pathname.endsWith("/")) {
-      if (!location.pathname.endsWith("index.html")) {
-        // permitir acesso direto ao index; para demais páginas, força login
-        if (location.pathname.endsWith("cadastro.html") || location.pathname.endsWith("arquivo.html") || location.pathname.endsWith("novo-usuario.html")) {
-          window.location.href = "index.html";
-        }
-      }
+    // Se NÃO está logado, força o redirecionamento para o index.html
+    const path = window.location.pathname;
+    const isLoginPage = path.endsWith("/index.html") || path.endsWith("/");
+    
+    if (!isLoginPage) {
+        window.location.href = "index.html";
     }
   }
 });

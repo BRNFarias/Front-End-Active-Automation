@@ -1,43 +1,48 @@
-// novo-usuario.js
+// js/novo-usuario.js
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("formUsuario");
   const nomeEl = document.getElementById("nome");
   const cpfEl = document.getElementById("cpf");
-  const statusEl = document.getElementById("status");
+  const inicioEl = document.getElementById("inicio"); // <-- Novo
+  const fimEl = document.getElementById("fim");       // <-- Novo
   const senhaEl = document.getElementById("senha");
+  
+  const API_URL = "http://localhost:8000/users"; // A nossa nova rota de back-end
 
-  // Se veio editarIndex, preenche o formulário
-  const editarIndex = localStorage.getItem("editarIndex");
-  if (editarIndex !== null) {
-    const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
-    const u = usuarios[Number(editarIndex)];
-    if (u) {
-      nomeEl.value = u.nome || "";
-      cpfEl.value = u.cpf || "";
-      statusEl.value = u.status || "Ativo";
-      senhaEl.value = u.senha || "";
-    }
-  }
+  // Não precisamos mais da lógica de "Editar" do localStorage
+  localStorage.removeItem("editarIndex");
 
-  form.addEventListener("submit", (ev) => {
+  form.addEventListener("submit", async (ev) => {
     ev.preventDefault();
-    const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
-    const novo = {
+    
+    const novoUsuario = {
       nome: nomeEl.value.trim(),
       cpf: cpfEl.value.trim(),
-      status: statusEl.value,
-      email: (nomeEl.value.trim().toLowerCase().replace(/\s+/g, ".") + "@senai.local"),
+      inicio: inicioEl.value, // (Formato AAAA-MM-DD)
+      fim: fimEl.value,       // (Formato AAAA-MM-DD)
       senha: senhaEl.value
     };
 
-    if (editarIndex !== null) {
-      usuarios[Number(editarIndex)] = { ...usuarios[Number(editarIndex)], ...novo };
-      localStorage.removeItem("editarIndex");
-    } else {
-      usuarios.push(novo);
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(novoUsuario)
+      });
+      
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "Erro desconhecido");
+      }
+
+      alert("Usuário salvo com sucesso!");
+      window.location.href = "cadastro.html"; // Volta para a lista
+      
+    } catch (error) {
+      alert(`Falha ao salvar usuário: ${error.message}`);
     }
-    localStorage.setItem("usuarios", JSON.stringify(usuarios));
-    alert("Usuário salvo.");
-    window.location.href = "cadastro.html";
   });
 });

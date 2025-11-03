@@ -193,3 +193,34 @@ select {
   color: var(--muted);
   font-size: 13px;
 }
+
+/* --- Novas Regras CSS para o layout do formulário --- */
+
+.form-group-inline {
+  display: flex; /* Faz os elementos filhos ficarem lado a lado */
+  gap: 16px;     /* Espaçamento entre os campos */
+  margin-bottom: 12px; /* Espaçamento abaixo do grupo */
+}
+
+.form-field {
+  flex: 1; /* Faz cada campo ocupar o mesmo espaço disponível */
+  display: flex;
+  flex-direction: column; /* Coloca label e input um sobre o outro dentro do campo */
+}
+
+.form-field label {
+  margin-bottom: 4px; /* Pequeno espaçamento entre o label e o input */
+}
+
+/* Opcional: ajustar a largura dos inputs de data se necessário */
+.form-field input[type="date"] {
+  width: 100%; /* Garante que o input de data ocupa o espaço total disponível */
+}
+
+/* Garante que os labels não empurrem os inputs em telas menores */
+@media (max-width: 600px) {
+  .form-group-inline {
+    flex-direction: column; /* Em telas pequenas, empilha os campos novamente */
+    gap: 0;
+  }
+}
