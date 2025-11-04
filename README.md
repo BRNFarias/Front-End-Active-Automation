@@ -53,5 +53,3 @@ O CORS do back-end já aceita origem `null`, então funciona abrindo direto no n
 6. No back-end, adicione seu domínio (ex: `https://seu-servidor.local`) na lista de *allowed origins* do `main.py`, depois reconstrua a imagem Docker.
 
 ---
-
-Pronto. Se quiser transformar isso em README.md já mando no formato completo.
