@@ -3,13 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("formUsuario");
   const nomeEl = document.getElementById("nome");
   const cpfEl = document.getElementById("cpf");
-  const inicioEl = document.getElementById("inicio"); // <-- Novo
-  const fimEl = document.getElementById("fim");       // <-- Novo
+  const inicioEl = document.getElementById("inicio"); 
+  const fimEl = document.getElementById("fim");       
   const senhaEl = document.getElementById("senha");
   
-  const API_URL = "http://localhost:8000/users"; // A nossa nova rota de back-end
+  const API_URL = "https://localhost:8000/users"; // <-- MUDANÇA AQUI
 
-  // Não precisamos mais da lógica de "Editar" do localStorage
   localStorage.removeItem("editarIndex");
 
   form.addEventListener("submit", async (ev) => {
@@ -18,8 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const novoUsuario = {
       nome: nomeEl.value.trim(),
       cpf: cpfEl.value.trim(),
-      inicio: inicioEl.value, // (Formato AAAA-MM-DD)
-      fim: fimEl.value,       // (Formato AAAA-MM-DD)
+      inicio: inicioEl.value, 
+      fim: fimEl.value,       
       senha: senhaEl.value
     };
 
@@ -39,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       alert("Usuário salvo com sucesso!");
-      window.location.href = "cadastro.html"; // Volta para a lista
+      window.location.href = "cadastro.html";
       
     } catch (error) {
       alert(`Falha ao salvar usuário: ${error.message}`);

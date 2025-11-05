@@ -1,32 +1,28 @@
 // js/cadastro.js
 document.addEventListener("DOMContentLoaded", () => {
   const tbody = document.querySelector("#tabelaUsuarios tbody");
-  const API_URL = "http://localhost:8000/users"; // A nossa nova rota de back-end
+  const API_URL = "https://localhost:8000/users"; // <-- MUDANÇA AQUI
 
   async function carregar() {
-    // 1. Apaga o localStorage antigo (não precisamos mais dele)
     localStorage.removeItem("usuarios");
     tbody.innerHTML = '<tr><td colspan="4">Carregando usuários do Active Directory...</td></tr>';
 
     try {
-      // 2. Chama a nossa API para buscar os usuários
       const response = await fetch(API_URL);
       if (!response.ok) {
         throw new Error(`Erro ao buscar usuários: ${response.statusText}`);
       }
-      const usuarios = await response.json(); // Pega a lista de [ {nome, cpf, status}, ... ]
+      const usuarios = await response.json();
       
-      tbody.innerHTML = ""; // Limpa a tabela
+      tbody.innerHTML = ""; 
 
       if (usuarios.length === 0) {
         tbody.innerHTML = '<tr><td colspan="4">Nenhum usuário encontrado no Active Directory.</td></tr>';
         return;
       }
 
-      // 3. Preenche a tabela com os dados reais do AD
       usuarios.forEach((u, i) => {
         const tr = document.createElement("tr");
-        // O status "Inativo" recebe uma classe CSS especial
         tr.className = u.status === "Inativo" ? "muted" : "";
         
         tr.innerHTML = `
@@ -47,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Ação de Excluir (Agora chama a API)
   window.excluirUsuario = async (cpf, nome) => {
     if (!confirm(`Tem certeza que deseja excluir o usuário ${nome} (CPF: ${cpf})?`)) {
       return;
@@ -65,23 +60,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       alert(`Usuário ${nome} excluído com sucesso!`);
-      carregar(); // Recarrega a lista
+      carregar(); 
       
     } catch (error) {
       alert(`Falha ao excluir usuário: ${error.message}`);
     }
   };
 
-  // Ação de Editar (Ainda usa localStorage - explicarei abaixo)
   window.editarUsuario = (cpf) => {
-    // A API de Edição ainda não foi criada no back-end,
-    // pois o formulário 'novo-usuario.html' não tem os campos 'Inicio' e 'Fim'.
-    // Por enquanto, esta função está desabilitada:
     alert("A função de Editar ainda precisa ser conectada ao back-end.");
-    
-    // Lógica antiga do localStorage (não vai funcionar mais):
-    // localStorage.setItem("editarIndex", String(i));
-    // window.location.href = "novo-usuario.html";
   };
 
   carregar();
