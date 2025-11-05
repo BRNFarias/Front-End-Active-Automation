@@ -1,56 +1,55 @@
-# ♡‧₊ ୨ৎ
-# Sistema de Cadastro de Alunos via Planilha
+# Painel de Gestão do Active Directory (Front-End)
 
-Este é um projeto simples desenvolvido com HTML, CSS e JavaScript que permite o cadastro de alunos a partir de arquivos de planilha, eliminando a necessidade de inserção manual dos dados.
+Este projeto é a interface de **front-end (HTML, CSS, JavaScript)** para a API de Automação do Active Directory. Ele fornece um painel web para gerir o ciclo de vida dos utilizadores, substituindo a necessidade de administrar o AD manualmente.
 
-## Funcionalidades
+Esta interface comunica diretamente com o projeto de back-end (API em Docker).
 
-Permite importar uma planilha (.xlsx ou .csv) com dados dos alunos.
+---
 
-Lê e processa os dados automaticamente.
+## 🌟 Funcionalidades
 
-Exibe os alunos importados em uma lista organizada.
+- **Login Seguro:** Autenticação via `/auth/login` usando `usuario@dominio.local`.
+- **Dashboard de Utilizadores:** Lista de usuários via `/users`, mostrando Nome, CPF e Status.
+- **Criação Individual:** Formulário para criar novos usuários via `/users`.
+- **Exclusão de Utilizador:** Remove usuários via `/users/{username}`.
+- **Upload em Massa:** Envio de planilhas `.xlsx` para criação/atualização em lote via `/jobs/upload`.
 
-Valida os dados da planilha (evita campos vazios e duplicados).
+---
 
-Permite adicionar manualmente alunos adicionais, se necessário.
+## 🛠️ Tecnologias Utilizadas
 
-Interface simples, amigável e responsiva.
+- **HTML5**
+- **CSS3**
+- **JavaScript (Puro)**
 
+---
 
-## Como Usar
+## 🚀 Como Executar este Front-End
 
-Clique no botão "Importar Planilha" e selecione um arquivo .xlsx ou .csv.
+Este projeto é **estático**, portanto **não precisa** de `npm install` ou `npm start`.
 
-O sistema irá processar o arquivo e exibir os alunos na tela.
+### 1. Pré-requisito: Back-End
 
-(Opcional) Utilize o campo de texto para adicionar manualmente outros alunos.
+O front depende da API de Automação do Active Directory estar rodando no Docker.
 
-A lista será atualizada automaticamente após cada ação.
+Back-end acessível em:
 
-(Futuro) Possibilidade de exportar a lista final ou integrá-la com outros sistemas.
+http://localhost:8000
 
+### 2. Executando Localmente (Tests)
 
-##Formato da Planilha
+1. Clone o repositório.  
+2. Abra o arquivo `index.html` no navegador.
 
-A planilha deve conter pelo menos uma coluna com os seguintes dados:
+O CORS do back-end já aceita origem `null`, então funciona abrindo direto no navegador.
 
-Nome do Aluno
-Ana Souza
-João Pedro
-Maria Lima
+### 3. Executando no IIS (Windows Server)
 
-Outras colunas (como e-mail, turma, etc.) podem ser adicionadas conforme a personalização do projeto.
+1. No **IIS Manager**, crie um novo site (ex: `SENAI Frontend`).  
+2. Defina o *Physical Path* para a pasta do projeto (ex: `C:\sites\senai-frontend`).  
+3. Configure *Bindings* para **HTTP (80)** e **HTTPS (443)**.  
+4. Gere um certificado *Self-Signed* e associe à porta 443.  
+5. Libere as portas 80 e 443 no Firewall do Windows.  
+6. No back-end, adicione seu domínio (ex: `https://seu-servidor.local`) na lista de *allowed origins* do `main.py`, depois reconstrua a imagem Docker.
 
-## Acesso ao Projeto
-
-Você pode acessar o site online aqui:
-🔗 https://leticialrocha.github.io/projetoCadastroAlunos
-
-## Tecnologias Utilizadas
-
-HTML
-
-CSS
-
-JavaScript (puro)
+---
