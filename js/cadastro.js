@@ -1,7 +1,7 @@
 // js/cadastro.js
 document.addEventListener("DOMContentLoaded", () => {
   const tbody = document.querySelector("#tabelaUsuarios tbody");
-  const API_URL = "https://localhost:8000/users"; // <-- MUDANÇA AQUI
+  const API_URL = "http://localhost:8000/users"; // <-- MUDANÇA AQUI
 
   async function carregar() {
     localStorage.removeItem("usuarios");

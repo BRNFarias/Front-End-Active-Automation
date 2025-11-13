@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fimEl = document.getElementById("fim");       
   const senhaEl = document.getElementById("senha");
   
-  const API_URL = "https://localhost:8000/users"; // <-- MUDANÇA AQUI
+  const API_URL = "http://localhost:8000/users"; // <-- MUDANÇA AQUI
 
   localStorage.removeItem("editarIndex");
 

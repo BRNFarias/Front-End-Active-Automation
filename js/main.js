@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const senha = document.getElementById("senha").value.trim();
       // ATENÇÃO: Se estiver usando HTTPS com certificado autoassinado,
       // talvez precise usar https://localhost:8000 ou aceitar o risco no navegador.
-      const API_URL = "https://localhost:8000/auth/login"; 
+      const API_URL = "http://localhost:8000/auth/login"; 
 
       e.target.disabled = true;
       e.target.textContent = "Aguarde...";

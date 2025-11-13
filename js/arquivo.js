@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("arquivo");
   const tbody = document.querySelector("#tabelaCSV tbody");
   
-  const API_URL = "https://localhost:8000/jobs/upload"; // <-- MUDANÇA AQUI
+  const API_URL = "http://localhost:8000/jobs/upload"; // <-- MUDANÇA AQUI
 
   form.addEventListener("submit", (e) => {
     e.preventDefault(); 
