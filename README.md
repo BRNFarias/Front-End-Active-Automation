@@ -4,7 +4,7 @@ Interface web estática para gerenciar usuários no Active Directory via API —
 
 ---
 
-## 🧰 Funcionalidades
+## Funcionalidades
 
 - Login com credenciais do AD (`usuario@dominio.local`)
 - Dashboard de usuários: exibe lista de usuários com Nome, CPF e Status.
@@ -14,7 +14,7 @@ Interface web estática para gerenciar usuários no Active Directory via API —
 
 ---
 
-## 📦 Tecnologias usadas
+## Tecnologias usadas
 
 - HTML5
 - CSS3
@@ -22,7 +22,7 @@ Interface web estática para gerenciar usuários no Active Directory via API —
 
 ---
 
-## 🚀 Como usar este front‑end
+## Como usar este front‑end
 
 ### Pré‑requisito
 O back‑end da API (contêiner Docker com a automação AD) deve estar rodando na porta 8000 (ou no endereço configurado no JS).
@@ -39,7 +39,7 @@ O back‑end da API (contêiner Docker com a automação AD) deve estar rodando 
 
 ---
 
-## 🗂️ Estrutura de pastas
+## Estrutura de pastas
 
 ```
 Front-End-Active-Automation/
@@ -54,7 +54,7 @@ Front-End-Active-Automation/
 
 ---
 
-## 📄 Dependências da API
+## Dependências da API
 
 O front‑end depende de rotas e estrutura da API. Para funcionar corretamente, o back‑end deve expor endpoints como:
 
@@ -67,12 +67,12 @@ O front‑end depende de rotas e estrutura da API. Para funcionar corretamente, 
 
 ---
 
-## 🙋 Sobre
+## Sobre
 
 Projeto de painel de gestão de usuários via Active Directory + Automação, criado como interface web leve & estática, ideal para ser combinada com um back‑end em Docker/FastAPI.
 
 ---
 
-## 👤 Autor
+## Autor
 
 Breno Rodrigues de Farias
